@@ -14,34 +14,6 @@ function getLoginUserInfo(php_file, user, pass) {
     return result;
 }
 
-// get DB //////////////////////////////////////////////////////////////////////
-function db_getAdminByEmail(AdminEmail) {
-    var result = new Array();
-    $.ajax({
-        type:"POST",
-        url:"php/db_getAdminByEmail.php",
-        data:{AdminEmail:AdminEmail},
-        async: false,  
-        success:function(data) {
-            result = JSON.parse(data);
-        }
-    });
-    return result;
-}
-
-function db_getAdminList() {
-    var result = new Array();
-    $.ajax({
-        type:"POST",
-        url:"php/db_getAdminList.php",
-        async: false,  
-        success:function(data) {
-            result = JSON.parse(data);
-        }
-    });
-    return result;
-}
-
 // get DB Tardis ///////////////////////////////////////////////////////////////
 function tardis_getCurrentTerm() {
     var result = "";
@@ -70,6 +42,48 @@ function tardis_getInstCourseList(TermCode, InstructorUID) {
     return result;
 }
 
+// get DB //////////////////////////////////////////////////////////////////////
+function db_getAdminByEmail(AdminEmail) {
+    var result = new Array();
+    $.ajax({
+        type:"POST",
+        url:"php/db_getAdminByEmail.php",
+        data:{AdminEmail:AdminEmail},
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
+function db_getAdminList() {
+    var result = new Array();
+    $.ajax({
+        type:"POST",
+        url:"php/db_getAdminList.php",
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
+function db_getInstructorInfo(InstEmail) {
+    var result = "";
+    $.ajax({
+        type:"POST",
+        url:"php/db_getInstructorInfo.php",
+        data:{InstEmail:InstEmail},
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
 // insert DB ///////////////////////////////////////////////////////////////////
 function db_insertAdmin(AdminName, AdminEmail) {
     var ResultID = "";
@@ -77,6 +91,20 @@ function db_insertAdmin(AdminName, AdminEmail) {
         type:"POST",
         url:"php/db_insertAdmin.php",
         data:{AdminName:AdminName, AdminEmail:AdminEmail},
+        async: false,  
+        success:function(data) {
+            ResultID = JSON.parse(data);
+        }
+    });
+    return ResultID;
+}
+
+function db_insertInstructor(InstNum, InstName, InstEmail) {
+    var ResultID = "";
+    $.ajax({
+        type:"POST",
+        url:"php/db_insertInstructor.php",
+        data:{InstNum:InstNum, InstName:InstName, InstEmail:InstEmail},
         async: false,  
         success:function(data) {
             ResultID = JSON.parse(data);

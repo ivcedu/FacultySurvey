@@ -53,7 +53,7 @@ $(document).ready(function() {
                     return false;
                 }
                 else {
-//                    window.open('adminReqList.html', '_self');
+                    // student login to do their survey
                     return false;
                 }
             }
