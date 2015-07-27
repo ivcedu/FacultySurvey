@@ -207,34 +207,31 @@ function valifiedInstructorExistance() {
     m_instructor_id = db_getInstructorInfo(inst_email);
     
     if (m_instructor_id === null) {
+        var inst_user = sessionStorage.getItem('ss_fasv_loginUserName');
         var inst_num = sessionStorage.getItem('ss_fasv_loginID');
         var inst_name = sessionStorage.getItem('ss_fasv_loginName');
-        m_instructor_id = db_insertInstructor(inst_num, inst_name, inst_email);
+        m_instructor_id = db_insertInstructor(inst_num, inst_user, inst_name, inst_email);
     }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function getInstCourseList() {
-    var login_user_name = sessionStorage.getItem('ss_fasv_loginUserName');
-    // testing...
-    login_user_name = "acaterina";
-    
-    var result = new Array();
-    result = tardis_getInstCourseList(m_term_code, login_user_name);
-    
-    $('#tbl_body').empty();
-    var html = "";
-    for (var i = 0; i < result.length; i++) {
-        html += setInstCourseListHTML(result[i]['SectionNum'], result[i]['CourseID'], result[i]['CourseTitle']);
-    }
-    $('#tbl_body').append(html);
-    
-    $('.i-checks').iCheck({
-        checkboxClass: 'icheckbox_square-green',
-        radioClass: 'iradio_square-green'
-    });
-    
-    $('.animate-panel').animatePanel();
+//    var result = new Array();
+//    result = tardis_getInstCourseList(m_term_code, login_user_name);
+//    
+//    $('#tbl_body').empty();
+//    var html = "";
+//    for (var i = 0; i < result.length; i++) {
+//        html += setInstCourseListHTML(result[i]['SectionNum'], result[i]['CourseID'], result[i]['CourseTitle']);
+//    }
+//    $('#tbl_body').append(html);
+//    
+//    $('.i-checks').iCheck({
+//        checkboxClass: 'icheckbox_square-green',
+//        radioClass: 'iradio_square-green'
+//    });
+//    
+//    $('.animate-panel').animatePanel();
 }
 
 function setInstCourseListHTML(section_num, course_id, course_title) {                                

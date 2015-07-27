@@ -99,12 +99,12 @@ function db_insertAdmin(AdminName, AdminEmail) {
     return ResultID;
 }
 
-function db_insertInstructor(InstNum, InstName, InstEmail) {
+function db_insertInstructor(InstNum, InstUser, InstName, InstEmail) {
     var ResultID = "";
     $.ajax({
         type:"POST",
         url:"php/db_insertInstructor.php",
-        data:{InstNum:InstNum, InstName:InstName, InstEmail:InstEmail},
+        data:{InstNum:InstNum, InstUser:InstUser, InstName:InstName, InstEmail:InstEmail},
         async: false,  
         success:function(data) {
             ResultID = JSON.parse(data);
