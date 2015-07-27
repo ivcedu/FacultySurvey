@@ -47,13 +47,17 @@ $(document).ready(function() {
                 return false;
             }
             else {
-                if (m_type === "Instructor") {
+                if (m_type === "Student") {
+                    // student login to do their survey
+                    return false;
+                }
+                else if (m_type.toLowerCase().indexOf("faculty") >= 0) {
                     sessionStorage.setItem('ss_fasv_loginUserName', m_username);
                     window.open('instOptOut.html', '_self');
                     return false;
                 }
                 else {
-                    // student login to do their survey
+                    swal({title: "Access Denied", text: "You are not a Administrator or Faculty", type: "error"});
                     return false;
                 }
             }
@@ -61,6 +65,7 @@ $(document).ready(function() {
         else {
             $('#error_msg').html("Invalid username or password");
             $('#logn_error').show();
+            return false;
         }
     });
 });
@@ -80,10 +85,10 @@ function loginInfo() {
         return false;
     }
     else {
-        m_ID = result[0];
-        m_name = result[1];
-        m_email = result[2];
-        m_type = result[3];
+        m_ID = objToString(result[0]);
+        m_name = objToString(result[1]);
+        m_email = objToString(result[2]);
+        m_type = objToString(result[3]);
         return true;
     }
 }

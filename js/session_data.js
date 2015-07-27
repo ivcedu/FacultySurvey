@@ -1,9 +1,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 function sessionData_login(loginID, loginName, loginEmail, loginType) {  
-    sessionStorage.setItem('ss_fasv_loginID', objToString(loginID));
-    sessionStorage.setItem('ss_fasv_loginName', objToString(loginName));
-    sessionStorage.setItem('ss_fasv_loginEmail', objToString(loginEmail));
-    sessionStorage.setItem('ss_fasv_loginType', objToString(loginType));
+    sessionStorage.setItem('ss_fasv_loginID', loginID);
+    sessionStorage.setItem('ss_fasv_loginName', loginName);
+    sessionStorage.setItem('ss_fasv_loginEmail', loginEmail);
+    sessionStorage.setItem('ss_fasv_loginType', loginType);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
