@@ -48,7 +48,7 @@ $(document).ready(function() {
             }
             else {
                 if (m_type === "Student") {
-                    // student login to do their survey
+                    window.open('studSurvey.html', '_self');
                     return false;
                 }
                 else if (m_type.toLowerCase().indexOf("faculty") >= 0) {
@@ -57,7 +57,7 @@ $(document).ready(function() {
                     return false;
                 }
                 else {
-                    swal({title: "Access Denied", text: "You are not a Administrator or Faculty", type: "error"});
+                    swal({title: "Access Denied", text: "You are not an IVC Faculty nor Administrator", type: "error"});
                     return false;
                 }
             }

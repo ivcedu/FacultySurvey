@@ -28,8 +28,11 @@
                 if (array_key_exists('mail', $data[0])) {
                     $email = $data[0]["mail"][0];
                 }
+                if (array_key_exists('employeetype', $data[0])) {
+                    $emptype = $data[0]["employeetype"][0];
+                }
 
-                $result = array($id, $name, $email, "Instructor");
+                $result = array($id, $name, $email, $emptype);
             }
         }          
         ldap_close($ldapconn);
