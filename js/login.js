@@ -47,11 +47,7 @@ $(document).ready(function() {
                 return false;
             }
             else {
-                if (m_type === "Student") {
-                    window.open('studSurvey.html', '_self');
-                    return false;
-                }
-                else if (m_type.toLowerCase().indexOf("faculty") >= 0) {
+                if (m_type.toLowerCase().indexOf("faculty") >= 0) {
                     sessionStorage.setItem('ss_fasv_loginUserName', m_username);
                     window.open('instOptOut.html', '_self');
                     return false;
@@ -76,10 +72,7 @@ function loginInfo() {
     m_username = $('#username').val().toLowerCase().replace("@ivc.edu", "");
     m_password = $('#password').val();
     
-    result = getLoginUserInfo("php/login.php", m_username, m_password);   
-    if (result.length === 0) {
-        result = getLoginUserInfo("php/login_student.php", m_username, m_password);
-    }
+    result = getLoginUserInfo("php/login.php", m_username, m_password);
     
     if (result.length === 0) {
         return false;
