@@ -1,9 +1,12 @@
+var m_term_code = "";
+
 ////////////////////////////////////////////////////////////////////////////////
 window.onload = function() {
     if (sessionStorage.key(0) !== null) {
         $('.splash').css('display', 'none');
         getLoginInfo();
-        $('#term_code').html("Current Term Code: " + tardis_getCurrentTerm());
+        m_term_code = tardis_getCurrentTerm();
+        $('#term_code').html("Current Term Code: " + m_term_code);
     }
     else {
         window.open('login.html', '_self');
