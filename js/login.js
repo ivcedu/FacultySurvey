@@ -82,6 +82,14 @@ function loginInfo() {
         m_name = objToString(result[1]);
         m_email = objToString(result[2]);
         m_type = objToString(result[3]);
+        
+        if (location.href.indexOf("ireport.ivc.edu") >= 0) {
+            sessionStorage.setItem('m_parentSite', 'https://ireport.ivc.edu');
+        }
+        else {
+            sessionStorage.setItem('m_parentSite', 'https://services.ivc.edu');
+        }
+        
         return true;
     }
 }
