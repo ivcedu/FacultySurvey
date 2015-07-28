@@ -43,7 +43,7 @@ $(document).ready(function() {
         if(loginInfo()) {
             sessionData_login(m_ID, m_name, m_email, m_type);
             if (isUserAdmin()) {
-                window.open('adminsetting.html', '_self');
+                window.open('adminImportCourses.html', '_self');
                 return false;
             }
             else {
