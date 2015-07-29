@@ -28,11 +28,11 @@ function tardis_getCurrentTerm() {
     return result;
 }
 
-function tardis_getInstCourseList(TermCode, InstructorUID) {
+function tardis_getInstCourseList(TermCode) {
     var result = new Array();
     $.ajax({
         type:"POST",
-        url:"php/tardis_getInstCourseList.php",
+        url:"php/tardis_getCourseList.php",
         data:{TermCode:TermCode, InstructorUID:InstructorUID},
         async: false,  
         success:function(data) {

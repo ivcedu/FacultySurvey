@@ -5,7 +5,7 @@
     $InstructorUID= filter_input(INPUT_POST, 'InstructorUID');
 
     $query = "SELECT * FROM [TOPSPIN.SOCCCD.EDU\TOPSPIN].[Tardis].[dbo].[CourseInfo] "
-            . "WHERE TermCode = '".$TermCode."' AND InstructorUID = '".$InstructorUID."'";
+            . "WHERE TermCode = '".$TermCode."' AND CollegeCode = 'I'";
 
     $cmd = $dbConn->prepare($query);
     $cmd->execute(); 
