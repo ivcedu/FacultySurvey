@@ -98,6 +98,20 @@ function db_getSurveyCourseCount(TermCode) {
     return result;
 }
 
+function db_getInstSurveyCourseList(TermCode, InstructorUID) {
+    var result = new Array();
+    $.ajax({
+        type:"POST",
+        url:"php/db_getInstSurveyCourseList.php",
+        data:{TermCode:TermCode, InstructorUID:InstructorUID},
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
 // insert DB ///////////////////////////////////////////////////////////////////
 function db_insertAdmin(AdminName, AdminEmail) {
     var ResultID = "";

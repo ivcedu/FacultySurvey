@@ -217,22 +217,23 @@ function valifiedInstructorExistance() {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function getInstCourseList() {
-//    var result = new Array();
-//    result = tardis_getInstCourseList(m_term_code, login_user_name);
-//    
-//    $('#tbl_body').empty();
-//    var html = "";
-//    for (var i = 0; i < result.length; i++) {
-//        html += setInstCourseListHTML(result[i]['SectionNum'], result[i]['CourseID'], result[i]['CourseTitle']);
-//    }
-//    $('#tbl_body').append(html);
-//    
-//    $('.i-checks').iCheck({
-//        checkboxClass: 'icheckbox_square-green',
-//        radioClass: 'iradio_square-green'
-//    });
-//    
-//    $('.animate-panel').animatePanel();
+    var login_user_name = sessionStorage.getItem('ss_fasv_loginID');
+    var result = new Array();
+    result = db_getInstSurveyCourseList(m_term_code, login_user_name);
+    
+    $('#tbl_body').empty();
+    var html = "";
+    for (var i = 0; i < result.length; i++) {
+        html += setInstCourseListHTML(result[i]['SectionNum'], result[i]['CourseID'], result[i]['CourseTitle']);
+    }
+    $('#tbl_body').append(html);
+    
+    $('.i-checks').iCheck({
+        checkboxClass: 'icheckbox_square-green',
+        radioClass: 'iradio_square-green'
+    });
+    
+    $('.animate-panel').animatePanel();
 }
 
 function setInstCourseListHTML(section_num, course_id, course_title) {                                
