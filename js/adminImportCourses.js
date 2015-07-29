@@ -121,7 +121,16 @@ $(document).ready(function() {
     
     // import butten click /////////////////////////////////////////////////////
     $('#btn_import').click(function() {
+        
+        var course_count = db_getSurveyCourseCount(m_term_code);
+        if (course_count === null) {
+            // courses already imported
 
+        }
+        else {
+            // course imported suceessfully
+            
+        }
     });
     
     // faculty list button click ///////////////////////////////////////////////

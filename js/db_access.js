@@ -84,6 +84,20 @@ function db_getInstructorInfo(InstEmail) {
     return result;
 }
 
+function db_getSurveyCourseCount(TermCode) {
+    var result = "";
+    $.ajax({
+        type:"POST",
+        url:"php/db_getSurveyCourseCount.php",
+        data:{TermCode:TermCode},
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
 // insert DB ///////////////////////////////////////////////////////////////////
 function db_insertAdmin(AdminName, AdminEmail) {
     var ResultID = "";
@@ -105,6 +119,20 @@ function db_insertInstructor(InstNum, InstUser, InstName, InstEmail) {
         type:"POST",
         url:"php/db_insertInstructor.php",
         data:{InstNum:InstNum, InstUser:InstUser, InstName:InstName, InstEmail:InstEmail},
+        async: false,  
+        success:function(data) {
+            ResultID = JSON.parse(data);
+        }
+    });
+    return ResultID;
+}
+
+function db_insertSurveyCourseFromTardis(TermCode) {
+    var ResultID = "";
+    $.ajax({
+        type:"POST",
+        url:"php/db_insertSurveyCourseFromTardis.php",
+        data:{TermCode:TermCode},
         async: false,  
         success:function(data) {
             ResultID = JSON.parse(data);
