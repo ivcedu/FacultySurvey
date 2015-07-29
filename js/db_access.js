@@ -170,6 +170,20 @@ function db_updateAdmin(AdminID, AdminName, AdminEmail) {
     return Result;
 }
 
+function db_updateSurveyCourseOptOut(SurveyCourseID, OptOut) {
+    var Result = false;
+    $.ajax({
+        type:"POST",
+        url:"php/db_updateInstSurveyCourseOptOut.php",
+        data:{SurveyCourseID:SurveyCourseID, OptOut:OptOut},
+        async: false,  
+        success:function(data) {
+            Result = JSON.parse(data);
+        }
+    });
+    return Result;
+}
+
 // delete DB ///////////////////////////////////////////////////////////////////
 //function db_deleteAdmin(AdminID) {
 //    var Result = false;

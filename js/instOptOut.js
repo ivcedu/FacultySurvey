@@ -123,7 +123,8 @@ $(document).ready(function() {
     
     // save button /////////////////////////////////////////////////////////////
     $('#btn_save').click(function() {
-
+        updateInstSurveyCourse();
+        swal({title: "Update Completed", text: "Your Opt Out courses has been update successfully", type: "success"});
     });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -218,13 +219,15 @@ function valifiedInstructorExistance() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function getInstCourseList() {
     var login_user_name = sessionStorage.getItem('ss_fasv_loginID');
+    // testing...
+    login_user_name = "adinh";
     var result = new Array();
     result = db_getInstSurveyCourseList(m_term_code, login_user_name);
     
     $('#tbl_body').empty();
     var html = "";
     for (var i = 0; i < result.length; i++) {
-        html += setInstCourseListHTML(result[i]['SectionNum'], result[i]['CourseID'], result[i]['CourseTitle']);
+        html += setInstCourseListHTML(result[i]['SurveyCourseID'], result[i]['OptOut'], result[i]['SectionNum'], result[i]['CourseID'], result[i]['CourseTitle']);
     }
     $('#tbl_body').append(html);
     
@@ -236,13 +239,28 @@ function getInstCourseList() {
     $('.animate-panel').animatePanel();
 }
 
-function setInstCourseListHTML(section_num, course_id, course_title) {                                
-    var html = "<tr>";
-    html += "<td><input type='checkbox' class='i-checks' id='ckb_opt_out_" + section_num + "'></td>";
+function setInstCourseListHTML(survey_course_id, opt_out, section_num, course_id, course_title) {                                
+    var html = "<tr id='survey_course_id_" + survey_course_id + "'>";
+    if (opt_out === "1") {
+        html += "<td><input type='checkbox' class='i-checks' checked id='ckb_opt_out_" + survey_course_id + "'></td>";
+    }
+    else {
+        html += "<td><input type='checkbox' class='i-checks' id='ckb_opt_out_" + survey_course_id + "'></td>";
+    }
     html += "<td>" + section_num + "</td>";
     html += "<td>" + course_id + "</td>";
     html += "<td>" + course_title + "</td>";
     html += "</tr>";
     
     return html;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function updateInstSurveyCourse() {
+    var rowCount = $('#tbl_inst_crs_list tr').length;
+    for (var i = 1; i < rowCount; i++) {
+        var sur_crs_id = $('#tbl_inst_crs_list tr').eq(i).attr('id').replace("survey_course_id_", "");
+        var ckb_opt_out = $('#ckb_opt_out_' + sur_crs_id).is(':checked');
+        db_updateSurveyCourseOptOut(sur_crs_id, ckb_opt_out);
+    }
 }

@@ -121,11 +121,10 @@ $(document).ready(function() {
     
     // import butten click /////////////////////////////////////////////////////
     $('#btn_import').click(function() {
-//        m_term_code = "20151";
         var course_count = db_getSurveyCourseCount(m_term_code);
         if (course_count === null) {
             db_insertSurveyCourseFromTardis(m_term_code);
-            swal({title: "Import Completed", text: "All current term courses already imported to DB", type: "success"});
+            swal({title: "Import Completed", text: "All current term courses has been imported successfully", type: "success"});
         }
         else {
             swal({title: "Courses Exist", text: "All current term courses already imported to DB", type: "info"});          
