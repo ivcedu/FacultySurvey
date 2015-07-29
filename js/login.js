@@ -73,6 +73,9 @@ function loginInfo() {
     m_password = $('#password').val();
     
     result = getLoginUserInfo("php/login.php", m_username, m_password);
+    if (result.length === 0) {
+        result = getLoginUserInfo("php/login_saddleback.php", m_username, m_password);
+    }
     
     if (result.length === 0) {
         return false;
