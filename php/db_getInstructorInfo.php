@@ -9,4 +9,4 @@
     $cmd->execute(); 
     $data = $cmd->fetch();
 
-    echo json_encode($data['AdminID']);
+    echo json_encode($data['InstructorID']);
