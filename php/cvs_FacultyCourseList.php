@@ -19,9 +19,8 @@
 
     // Write the spreadsheet column titles / labels
     fputcsv($out, array('usertype','title','firstname', 'surename', 'email', 'course_name', 'course_code', 'program_of_studies', 'course_type', 'course_participants'));
-    // Write all the user records to the spreadsheet
-    foreach($data as $row)
-    {
+    // Write all the records to the spreadsheet
+    foreach($data as $row) {
         fputcsv($out, array($row['UserType'], $row['Title'], $row['FirstName'], $row['LastName'], $row['Email'], $row['CourseTitle'], $row['SectionNum'], $row['CourseID'], $row['CourseType'], $row['Participants']));
     }
     
