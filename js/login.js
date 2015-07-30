@@ -53,7 +53,7 @@ $(document).ready(function() {
                     return false;
                 }
                 else {
-                    swal({title: "Access Denied", text: "You are not an IVC Faculty nor Administrator", type: "error"});
+                    swal({title: "Access Denied", text: "You are not a SOCCCD Faculty nor Administrator", type: "error"});
                     return false;
                 }
             }
