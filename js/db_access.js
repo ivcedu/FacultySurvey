@@ -70,20 +70,6 @@ function db_getAdminList() {
     return result;
 }
 
-function db_getInstructorInfo(InstEmail) {
-    var result = "";
-    $.ajax({
-        type:"POST",
-        url:"php/db_getInstructorInfo.php",
-        data:{InstEmail:InstEmail},
-        async: false,  
-        success:function(data) {
-            result = JSON.parse(data);
-        }
-    });
-    return result;
-}
-
 function db_getSurveyCourseCount(TermCode) {
     var result = "";
     $.ajax({
@@ -119,20 +105,6 @@ function db_insertAdmin(AdminName, AdminEmail) {
         type:"POST",
         url:"php/db_insertAdmin.php",
         data:{AdminName:AdminName, AdminEmail:AdminEmail},
-        async: false,  
-        success:function(data) {
-            ResultID = JSON.parse(data);
-        }
-    });
-    return ResultID;
-}
-
-function db_insertInstructor(InstNum, InstUser, InstName, InstEmail) {
-    var ResultID = "";
-    $.ajax({
-        type:"POST",
-        url:"php/db_insertInstructor.php",
-        data:{InstNum:InstNum, InstUser:InstUser, InstName:InstName, InstEmail:InstEmail},
         async: false,  
         success:function(data) {
             ResultID = JSON.parse(data);

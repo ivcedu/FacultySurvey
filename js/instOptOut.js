@@ -6,7 +6,6 @@ window.onload = function() {
     if (sessionStorage.key(0) !== null) {
         $('.splash').css('display', 'none');
         m_term_code = tardis_getCurrentTerm();
-        valifiedInstructorExistance();
         getLoginInfo();
         getInstCourseList();
     }
@@ -201,19 +200,6 @@ $.fn['animatePanel'] = function() {
 function getLoginInfo() {
     var login_name = sessionStorage.getItem('ss_fasv_loginName');
     $('#login_user').html(login_name);
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function valifiedInstructorExistance() {
-    var inst_email = sessionStorage.getItem('ss_fasv_loginEmail');
-    m_instructor_id = db_getInstructorInfo(inst_email);
-    
-    if (m_instructor_id === null) {
-        var inst_user = sessionStorage.getItem('ss_fasv_loginUserName');
-        var inst_num = sessionStorage.getItem('ss_fasv_loginID');
-        var inst_name = sessionStorage.getItem('ss_fasv_loginName');
-        m_instructor_id = db_insertInstructor(inst_num, inst_user, inst_name, inst_email);
-    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
