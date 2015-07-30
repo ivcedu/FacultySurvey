@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
         <meta http-equiv="Cache-Control" content="no-cache"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <title>Faculty Survey</title>
+        <title>IVC Faculty Eval Opt-Out System</title>
         <!-- homer-1.5 Vendor css -->
         <link rel="stylesheet" href="../homer-1.5/vendor/fontawesome/css/font-awesome.css"/>
         <link rel="stylesheet" href="../homer-1.5/vendor/metisMenu/dist/metisMenu.css"/>
@@ -24,7 +24,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="text-center m-b-md">
-                        <h3 class="font-bold">IVC Class Climate-Faculty Evaluation</h3>
+                        <h3 class="font-bold">IVC Faculty Eval Opt-Out System</h3>
                     </div>
                     <div class="hpanel">
                         <div class="panel-body">
