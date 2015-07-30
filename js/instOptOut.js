@@ -204,7 +204,7 @@ function getLoginInfo() {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function getInstCourseList() {
-    var login_user_name = sessionStorage.getItem('ss_fasv_loginID');    
+    var login_user_name = sessionStorage.getItem('ss_fasv_loginUserName');    
     var result = new Array();
     result = db_getInstSurveyCourseList(m_term_code, login_user_name);
     
