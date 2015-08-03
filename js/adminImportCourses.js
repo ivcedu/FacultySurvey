@@ -142,7 +142,7 @@ $(document).ready(function() {
         location.href = "php/cvs_FacultyCourseList.php?TermCode=" + m_term_code;
         // sping for 10 sec.
         startSpin();        
-        setTimeout(function() {      
+        setTimeout(function() {
             stopSpin();
         }, 10000);
     });
