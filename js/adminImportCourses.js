@@ -1,5 +1,4 @@
 var m_term_code = "";
-var m_tardis_course_list = new Array();
 
 var target;
 var spinner;
@@ -241,49 +240,49 @@ function getLoginInfo() {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function tardisGetFacultyCourseList() {
-    m_tardis_course_list = tardis_getFacultyCourseList(m_term_code);
+    var result = new Array();
+    result = tardis_getFacultyCourseList(m_term_code);
     
     var str_data = "usertype,title,firstname,surename,email,course_name,course_code,program_of_studies,course_type,course_participants\n";
-    for (var i = 0; i < m_tardis_course_list.length; i++) {
-        str_data += m_tardis_course_list[i]['UserType'] + ",";
-        str_data += m_tardis_course_list[i]['Title'] + ",";
-        str_data += m_tardis_course_list[i]['FirstName'] + ",";
-        str_data += m_tardis_course_list[i]['LastName'] + ",";
-        str_data += m_tardis_course_list[i]['Email'] + ",";
-        str_data += m_tardis_course_list[i]['CourseTitle'] + ",";
-        str_data += m_tardis_course_list[i]['SectionNum'] + ",";
-        str_data += m_tardis_course_list[i]['CourseID'] + ",";
-        str_data += m_tardis_course_list[i]['CourseType'] + ",";
-        str_data += m_tardis_course_list[i]['Participants'] + "\n";
+    for (var i = 0; i < result.length; i++) {
+        str_data += result[i]['UserType'] + ",";
+        str_data += result[i]['Title'] + ",";
+        str_data += result[i]['FirstName'] + ",";
+        str_data += result[i]['LastName'] + ",";
+        str_data += result[i]['Email'] + ",";
+        str_data += result[i]['CourseTitle'] + ",";
+        str_data += result[i]['SectionNum'] + ",";
+        str_data += result[i]['CourseID'] + ",";
+        str_data += result[i]['CourseType'] + ",";
+        str_data += result[i]['Participants'] + "\n";
     }
-    
-    
-    var blob = new Blob([str_data], { type: 'text/csv;charset=utf-8;' });
-    var link = document.createElement("a");
-    var url = URL.createObjectURL(blob);
-    
-    var curBrowser = bowser.name;
-    if (curBrowser === "Internet Explorer") {
-        download(str_data, "export_faculty_list.csv", "text/csv");
-    }
-    else {
-        link.setAttribute("href", url);
-        link.setAttribute("download", "export_faculty_list.csv");
-        link.style.visibility = 'hidden';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    }
+    download(str_data, "export_faculty_list.csv", "text/csv");
+
+//    var curBrowser = bowser.name;
+//    if (curBrowser === "Internet Explorer") {
+//        download(str_data, "export_faculty_list.csv", "text/csv");
+//    }
+//    else {
+//        var blob = new Blob([str_data], { type: 'text/csv;charset=utf-8;' });
+//        var link = document.createElement("a");
+//        var url = URL.createObjectURL(blob);
+//        link.setAttribute("href", url);
+//        link.setAttribute("download", "export_faculty_list.csv");
+//        link.style.visibility = 'hidden';
+//        document.body.appendChild(link);
+//        link.click();
+//        document.body.removeChild(link);
+//    }
 }
 
 function download(strData, strFileName, strMimeType) {
     var D = document,
         a = D.createElement("a");
-        strMimeType= strMimeType || "application/octet-stream";
+        strMimeType = strMimeType || "application/octet-stream";
 
     if (navigator.msSaveBlob) { // IE10
         return navigator.msSaveBlob(new Blob([strData], {type: strMimeType}), strFileName);
-    } /* end if(navigator.msSaveBlob) */
+    }
 
     if ('download' in a) { //html5 A[download]
         a.href = "data:" + strMimeType + "," + encodeURIComponent(strData);
