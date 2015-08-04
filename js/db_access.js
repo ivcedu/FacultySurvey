@@ -28,20 +28,6 @@ function tardis_getCurrentTerm() {
     return result;
 }
 
-function tardis_getInstCourseList(TermCode) {
-    var result = new Array();
-    $.ajax({
-        type:"POST",
-        url:"php/tardis_getCourseList.php",
-        data:{TermCode:TermCode, InstructorUID:InstructorUID},
-        async: false,  
-        success:function(data) {
-            result = JSON.parse(data);
-        }
-    });
-    return result;
-}
-
 // get DB //////////////////////////////////////////////////////////////////////
 function db_getAdminByEmail(AdminEmail) {
     var result = new Array();
@@ -170,3 +156,18 @@ function db_updateSurveyCourseOptOut(SurveyCourseID, OptOut) {
 //    });
 //    return Result;
 //}
+
+// create csv //////////////////////////////////////////////////////////////////
+function tardis_getFacultyCourseList(TermCode) {
+    var result = new Array();
+    $.ajax({
+        type:"POST",
+        url:"php/tardis_getFacultyCourseList.php",
+        data:{TermCode:TermCode},
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}

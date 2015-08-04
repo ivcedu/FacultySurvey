@@ -1,4 +1,5 @@
 var m_term_code = "";
+var m_tardis_course_list = new Array();
 
 var target;
 var spinner;
@@ -139,10 +140,10 @@ $(document).ready(function() {
     
     // faculty list button click ///////////////////////////////////////////////
     $('#btn_excel_faculty').click(function() {
-        location.href = "php/cvs_FacultyCourseList.php?TermCode=" + m_term_code;
-        // sping for 10 sec.
+        location.href = "php/cvs_FacultyCourseList.php?TermCode=" + m_term_code;        
         startSpin();        
         setTimeout(function() {
+//            tardisGetFacultyCourseList();
             stopSpin();
         }, 10000);
     });
@@ -236,4 +237,42 @@ function stopSpin() {
 function getLoginInfo() {
     var login_name = sessionStorage.getItem('ss_fasv_loginName');
     $('#login_user').html(login_name);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function tardisGetFacultyCourseList() {
+    m_tardis_course_list = tardis_getFacultyCourseList(m_term_code);
+    
+//    var str_data = "data:text/csv;charset=utf-8,usertype,title,firstname,surename,email,course_name,course_code,program_of_studies,course_type,course_participants\n";
+    var str_data = "usertype,title,firstname,surename,email,course_name,course_code,program_of_studies,course_type,course_participants\n";
+    for (var i = 0; i < m_tardis_course_list.length; i++) {
+        str_data += m_tardis_course_list[i]['UserType'] + ",";
+        str_data += m_tardis_course_list[i]['Title'] + ",";
+        str_data += m_tardis_course_list[i]['FirstName'] + ",";
+        str_data += m_tardis_course_list[i]['LastName'] + ",";
+        str_data += m_tardis_course_list[i]['Email'] + ",";
+        str_data += m_tardis_course_list[i]['CourseTitle'] + ",";
+        str_data += m_tardis_course_list[i]['SectionNum'] + ",";
+        str_data += m_tardis_course_list[i]['CourseID'] + ",";
+        str_data += m_tardis_course_list[i]['CourseType'] + ",";
+        str_data += m_tardis_course_list[i]['Participants'] + "\n";
+    }
+    var blob = new Blob([str_data], { type: 'text/csv;charset=utf-8;' });
+    var link = document.createElement("a");
+    var url = URL.createObjectURL(blob);
+    link.setAttribute("href", url);
+    link.setAttribute("download", "export_faculty_list.csv");
+//    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+       
+//    var encodedUri = encodeURI(str_data);
+//    var link = document.createElement("a");
+//    link.setAttribute("href", encodedUri);
+//    link.setAttribute("download", "export_faculty_list.csv");
+//    link.style.visibility = 'hidden';
+//    document.body.appendChild(link);
+//    link.click();
+//    document.body.removeChild(link);
 }

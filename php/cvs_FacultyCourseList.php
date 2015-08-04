@@ -2,6 +2,7 @@
     require("config.php");
 
     $TermCode = filter_input(INPUT_GET, 'TermCode');
+//    $TermCode = filter_input(INPUT_POST, 'TermCode');
 
     $query = "SELECT 'Instructor' AS UserType, empl.Title, empl.FirstName, empl.LastName, empl.Email, svcr.CourseTitle, svcr.SectionNum, svcr.CourseID, '1' AS CourseType, "
             . "(SELECT COUNT(StudentID) FROM [TOPSPIN.SOCCCD.EDU\TOPSPIN].[Tardis].[dbo].[StudentCourses] WHERE TermCode = '".$TermCode."' AND SectionNum = svcr.SectionNum) AS Participants "
