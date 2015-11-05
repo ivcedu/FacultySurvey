@@ -139,7 +139,7 @@ $(document).ready(function() {
     
     // faculty list button click ///////////////////////////////////////////////
     $('#btn_excel_faculty').click(function() {        
-//        location.href = "php/cvs_FacultyCourseList.php?TermCode=" + m_term_code;        
+//        location.href = "php/cvs_FacultyCourseList.php?TermCode=" + m_term_code;     
         startSpin();        
         setTimeout(function() {
             tardisGetFacultyCourseList();
