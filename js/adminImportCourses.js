@@ -139,12 +139,12 @@ $(document).ready(function() {
     
     // faculty list button click ///////////////////////////////////////////////
     $('#btn_excel_faculty').click(function() {        
-//        location.href = "php/cvs_FacultyCourseList.php?TermCode=" + m_term_code;     
-        startSpin();        
-        setTimeout(function() {
-            tardisGetFacultyCourseList();
-            stopSpin();
-        }, 10000);
+        location.href = "php/cvs_FacultyCourseList.php?TermCode=" + m_term_code;     
+//        startSpin();        
+//        setTimeout(function() {
+//            tardisGetFacultyCourseList();
+//            stopSpin();
+//        }, 10000);
     });
     
     // student list button click ///////////////////////////////////////////////
