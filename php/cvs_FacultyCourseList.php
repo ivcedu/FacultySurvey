@@ -19,9 +19,8 @@
     $query6 = "INSERT INTO #RESULT3 SELECT rst1.Title, rst1.FirstName, rst1.LastName, rst1.Email, rst1.CourseTitle, rst1.SectionNum, rst1.CourseID, rst2.Participants "
             . "FROM #RESULT1 AS rst1 LEFT JOIN #RESULT2 AS rst2 ON rst1.SectionNum = rst2.SectionNum";
 
-    $query7 = "SELECT 'Instructor' AS UserType, Title, FirstName, LastName, Email, CourseTitle, SectionNum, CourseID, '1' AS CourseType, Participants "
-            . "FROM #RESULT3 "
-            . "WHERE Participants IS NOT NULL";
+    $query7 = "SELECT 'Instructor' AS UserType, rst3.Title, rst3.FirstName, rst3.LastName, rst3.Email, rst3.CourseTitle, rst3.SectionNum, rst3.CourseID, '1' AS CourseType, rst3.Participants "
+            . "FROM #RESULT3 AS rst3 INNER JOIN [IVCFASV].[dbo].[SurveyCourse] AS svcr ON rst3.SectionNum = svcr.SectionNum AND svcr.OptOut = 0";
     
     $query8 = "DROP TABLE #RESULT1";
     $query9 = "DROP TABLE #RESULT2";
