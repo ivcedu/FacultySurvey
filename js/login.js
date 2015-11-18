@@ -47,15 +47,18 @@ $(document).ready(function() {
                 return false;
             }
             else {
-                if (m_type.toLowerCase().indexOf("faculty") >= 0) {
-                    sessionStorage.setItem('ss_fasv_loginUserName', m_username);
-                    window.open('instOptOut.html', '_self');
-                    return false;
-                }
-                else {
-                    swal({title: "Access Denied", text: "You are not a SOCCCD Faculty nor Administrator", type: "error"});
-                    return false;
-                }
+                sessionStorage.setItem('ss_fasv_loginUserName', m_username);
+                window.open('instOptOut.html', '_self');
+                return false;
+//                if (m_type.toLowerCase().indexOf("faculty") >= 0) {
+//                    sessionStorage.setItem('ss_fasv_loginUserName', m_username);
+//                    window.open('instOptOut.html', '_self');
+//                    return false;
+//                }
+//                else {
+//                    swal({title: "Access Denied", text: "You are not a SOCCCD Faculty nor Administrator", type: "error"});
+//                    return false;
+//                }
             }
         }
         else {
