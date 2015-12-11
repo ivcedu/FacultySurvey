@@ -48,7 +48,7 @@ $(document).ready(function() {
             }
             else {
                 if (!validateFacultySurvey()) {
-                    swal({title: "Warning", text: "Faculty Opt Out student evaluation survey has not been start or completed", type: "warning"});
+                    swal({title: "Warning", text: "Faculty Opt Out student evaluation survey has not been start or due date has been past", type: "warning"});
                 }
                 else {
                     sessionStorage.setItem('ss_fasv_loginUserName', m_username);
