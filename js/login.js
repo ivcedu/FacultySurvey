@@ -48,23 +48,13 @@ $(document).ready(function() {
             }
             else {
                 if (!validateFacultySurvey()) {
-                    swal({title: "Warning", text: "Faculty Opt Out student evaluation survey has not been start or due date has been past", type: "warning"});
+                    swal({title: "Read", text: "Faculty Opt Out student evaluation survey has not been start or due date has been past", type: "warning"});
                 }
                 else {
                     sessionStorage.setItem('ss_fasv_loginUserName', m_username);
                     window.open('instOptOut.html', '_self');
                 }
                 return false;
-                
-//                if (m_type.toLowerCase().indexOf("faculty") >= 0) {
-//                    sessionStorage.setItem('ss_fasv_loginUserName', m_username);
-//                    window.open('instOptOut.html', '_self');
-//                    return false;
-//                }
-//                else {
-//                    swal({title: "Access Denied", text: "You are not a SOCCCD Faculty nor Administrator", type: "error"});
-//                    return false;
-//                }
             }
         }
         else {
