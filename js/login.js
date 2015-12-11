@@ -47,9 +47,15 @@ $(document).ready(function() {
                 return false;
             }
             else {
-                sessionStorage.setItem('ss_fasv_loginUserName', m_username);
-                window.open('instOptOut.html', '_self');
+                if (!validateFacultySurvey()) {
+                    swal({title: "Warning", text: "Faculty Opt Out student evaluation survey has not been start or completed", type: "warning"});
+                }
+                else {
+                    sessionStorage.setItem('ss_fasv_loginUserName', m_username);
+                    window.open('instOptOut.html', '_self');
+                }
                 return false;
+                
 //                if (m_type.toLowerCase().indexOf("faculty") >= 0) {
 //                    sessionStorage.setItem('ss_fasv_loginUserName', m_username);
 //                    window.open('instOptOut.html', '_self');
@@ -100,6 +106,7 @@ function loginInfo() {
     }
 }
 
+////////////////////////////////////////////////////////////////////////////////
 function isUserAdmin() {
     var result = new Array();
     result = db_getAdminByEmail(sessionStorage.getItem('ss_fasv_loginEmail'));
@@ -107,6 +114,30 @@ function isUserAdmin() {
     if (result.length === 1) {
         m_type = "Admin";
         return true;
+    }
+    else {
+        return false;
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+function validateFacultySurvey() {
+    var term_code = tardis_getCurrentTerm();
+    var result = new Array();
+    result = db_getSurveyDateByTermCode(term_code);
+    
+    if (result.length === 1) {
+        var today = new Date();
+        var start_date = new Date(result[0]['StartDate']);
+        var end_date = new Date(result[0]['EndDate']);
+        end_date.setDate(end_date.getDate() + 1);
+        
+        if (today >= start_date && today <= end_date) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
     else {
         return false;

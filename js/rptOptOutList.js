@@ -1,20 +1,13 @@
 var m_term_code = "";
-var m_sur_date_exist = false;
 
-var target;
-var spinner;
 ////////////////////////////////////////////////////////////////////////////////
 window.onload = function() {
     if (sessionStorage.key(0) !== null) {
         $('.splash').css('display', 'none');
-        
-        target = $('#spinner')[0];
-        spinner = new Spinner();
-        
         getLoginInfo();
         m_term_code = tardis_getCurrentTerm();
         $('#term_code').html("Current Term Code: " + m_term_code);
-        getCurrentSurveyDateRange();
+        getOptOutList();
     }
     else {
         window.open('login.html', '_self');
@@ -127,46 +120,8 @@ $(document).ready(function() {
         return false;
     });
     
-    // update (survey date) button click ///////////////////////////////////////
-    $('#btn_date_update').click(function() {
-        if (updateSurveyDateRange()) {
-            swal({title: "Update Completed", text: "Survey date range has been updated successfully", type: "success"});
-        }
-        else {
-            swal({title: "Error", text: "Start Date and End Date are required", type: "error"});
-        }
-    });
-    
-    // import butten click /////////////////////////////////////////////////////
-    $('#btn_import').click(function() {
-        var course_count = db_getSurveyCourseCount(m_term_code);
-        if (course_count === null) {
-            db_insertSurveyCourseFromTardis(m_term_code);
-            swal({title: "Import Completed", text: "All current term courses has been imported successfully", type: "success"});
-        }
-        else {
-            swal({title: "Courses Exist", text: "All current term courses already imported to DB", type: "info"});          
-        }
-    });
-    
-    // faculty list button click ///////////////////////////////////////////////
-    $('#btn_excel_faculty').click(function() {        
-        location.href = "php/cvs_FacultyCourseList.php?TermCode=" + m_term_code;     
-//        startSpin();        
-//        setTimeout(function() {
-//            tardisGetFacultyCourseList();
-//            stopSpin();
-//        }, 10000);
-    });
-    
-    // student list button click ///////////////////////////////////////////////
-    $('#btn_excel_student').click(function() {
-        location.href = "php/cvs_ParticipantList.php?TermCode=" + m_term_code;
-    });
-    
-    // bootstrap datepicker
-    $('#start_date').datepicker();
-    $('#end_date').datepicker();
+    // jquery datatables initialize ////////////////////////////////////////////
+    m_table = $('#tbl_opt_out_list').DataTable({ paging: false, bInfo: false});
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 });
@@ -240,116 +195,16 @@ $.fn['animatePanel'] = function() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-function startSpin() {
-    spinner.spin(target);
-}
-
-function stopSpin() {
-    spinner.stop();
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function getLoginInfo() {
     var login_name = sessionStorage.getItem('ss_fasv_loginName');
     $('#login_user').html(login_name);
 }
 
-function getCurrentSurveyDateRange() {
-    var result = new Array();
-    result = db_getSurveyDateByTermCode(m_term_code);
-    
-    if (result.length === 1) {
-        m_sur_date_exist = true;
-        $('#start_date').val(result[0]['StartDate']);
-        $('#end_date').val(result[0]['EndDate']);
-    }
-}
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function updateSurveyDateRange() {
-    var start_date = $('#start_date').val();
-    var end_date = $('#end_date').val();
-    
-    if (start_date === "" || end_date === "") {
-        return false;
-    }
-    else {        
-        if (m_sur_date_exist) {
-            db_updateSurveyDate(m_term_code, start_date, end_date);
-        }
-        else {
-            db_insertSurveyDate(m_term_code, start_date, end_date);
-            m_sur_date_exist = true;
-        }
-        return true;
-    }
-}
+function getOptOutList() {
+    var result = new Array(); 
+    result = db_getOptOutList(m_term_code);
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function tardisGetFacultyCourseList() {
-    var result = new Array();
-    result = tardis_getFacultyCourseList(m_term_code);
-    
-    var str_data = "usertype,title,firstname,surename,email,course_name,course_code,program_of_studies,course_type,course_participants\n";
-    for (var i = 0; i < result.length; i++) {
-        str_data += result[i]['UserType'] + ",";
-        str_data += result[i]['Title'] + ",";
-        str_data += result[i]['FirstName'] + ",";
-        str_data += result[i]['LastName'] + ",";
-        str_data += result[i]['Email'] + ",";
-        str_data += result[i]['CourseTitle'] + ",";
-        str_data += result[i]['SectionNum'] + ",";
-        str_data += result[i]['CourseID'] + ",";
-        str_data += result[i]['CourseType'] + ",";
-        str_data += result[i]['Participants'] + "\n";
-    }
-    download(str_data, "export_faculty_list.csv", "text/csv");
-
-//    var curBrowser = bowser.name;
-//    if (curBrowser === "Internet Explorer") {
-//        download(str_data, "export_faculty_list.csv", "text/csv");
-//    }
-//    else {
-//        var blob = new Blob([str_data], { type: 'text/csv;charset=utf-8;' });
-//        var link = document.createElement("a");
-//        var url = URL.createObjectURL(blob);
-//        link.setAttribute("href", url);
-//        link.setAttribute("download", "export_faculty_list.csv");
-//        link.style.visibility = 'hidden';
-//        document.body.appendChild(link);
-//        link.click();
-//        document.body.removeChild(link);
-//    }
-}
-
-function download(strData, strFileName, strMimeType) {
-    var D = document,
-        a = D.createElement("a");
-        strMimeType = strMimeType || "application/octet-stream";
-
-    if (navigator.msSaveBlob) { // IE10
-        return navigator.msSaveBlob(new Blob([strData], {type: strMimeType}), strFileName);
-    }
-
-    if ('download' in a) { //html5 A[download]
-        a.href = "data:" + strMimeType + "," + encodeURIComponent(strData);
-        a.setAttribute("download", strFileName);
-        a.innerHTML = "downloading...";
-        D.body.appendChild(a);
-        setTimeout(function() {
-            a.click();
-            D.body.removeChild(a);
-        }, 66);
-        return true;
-    } /* end if('download' in a) */
-
-    //do iframe dataURL download (old ch+FF):
-    var f = D.createElement("iframe");
-    D.body.appendChild(f);
-    f.src = "data:" +  strMimeType   + "," + encodeURIComponent(strData);
-
-    setTimeout(function() {
-        D.body.removeChild(f);
-    }, 333);
-    return true;
+    m_table.clear();
+    m_table.rows.add(result).draw();
 }

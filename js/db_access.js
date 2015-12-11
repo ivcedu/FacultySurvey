@@ -84,6 +84,34 @@ function db_getInstSurveyCourseList(TermCode, InstructorUID) {
     return result;
 }
 
+function db_getSurveyDateByTermCode(TermCode) {
+    var result = new Array();
+    $.ajax({
+        type:"POST",
+        url:"php/db_getSurveyDateByTermCode.php",
+        data:{TermCode:TermCode},
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
+function db_getOptOutList(TermCode) {
+    var result = new Array();
+    $.ajax({
+        type:"POST",
+        url:"php/db_getOptOutList.php",
+        data:{TermCode:TermCode},
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
 // insert DB ///////////////////////////////////////////////////////////////////
 function db_insertAdmin(AdminName, AdminEmail) {
     var ResultID = "";
@@ -113,6 +141,20 @@ function db_insertSurveyCourseFromTardis(TermCode) {
     return ResultID;
 }
 
+function db_insertSurveyDate(TermCode, StartDate, EndDate) {
+    var ResultID = "";
+    $.ajax({
+        type:"POST",
+        url:"php/db_insertSurveyDate.php",
+        data:{TermCode:TermCode, StartDate:StartDate, EndDate:EndDate},
+        async: false,  
+        success:function(data) {
+            ResultID = JSON.parse(data);
+        }
+    });
+    return ResultID;
+}
+
 // update DB ///////////////////////////////////////////////////////////////////
 function db_updateAdmin(AdminID, AdminName, AdminEmail) {
     var Result = false;
@@ -134,6 +176,20 @@ function db_updateSurveyCourseOptOut(SurveyCourseID, OptOut) {
         type:"POST",
         url:"php/db_updateInstSurveyCourseOptOut.php",
         data:{SurveyCourseID:SurveyCourseID, OptOut:OptOut},
+        async: false,  
+        success:function(data) {
+            Result = JSON.parse(data);
+        }
+    });
+    return Result;
+}
+
+function db_updateSurveyDate(TermCode, StartDate, EndDate) {
+    var Result = false;
+    $.ajax({
+        type:"POST",
+        url:"php/db_updateSurveyDate.php",
+        data:{TermCode:TermCode, StartDate:StartDate, EndDate:EndDate},
         async: false,  
         success:function(data) {
             Result = JSON.parse(data);
