@@ -1,12 +1,11 @@
-var m_term_code = "";
+var m_table;
 
 ////////////////////////////////////////////////////////////////////////////////
 window.onload = function() {
     if (sessionStorage.key(0) !== null) {
         $('.splash').css('display', 'none');
-        getLoginInfo();
-        m_term_code = tardis_getCurrentTerm();
-        $('#term_code').html("Current Term Code: " + m_term_code);
+        getLoginInfo();        
+        getTermCodeList();
         getOptOutList();
     }
     else {
@@ -120,6 +119,15 @@ $(document).ready(function() {
         return false;
     });
     
+    // mod activity change event ///////////////////////////////////////////////
+    $('#term_code_list').change(function() {
+        getOptOutList()
+        return false;
+    });
+    
+    // bootstrap selectpicker
+    $('.selectpicker').selectpicker();
+    
     // jquery datatables initialize ////////////////////////////////////////////
     m_table = $('#tbl_opt_out_list').DataTable({ paging: false, bInfo: false});
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -200,10 +208,25 @@ function getLoginInfo() {
     $('#login_user').html(login_name);
 }
 
+////////////////////////////////////////////////////////////////////////////////
+function getTermCodeList() {
+    var result = new Array(); 
+    result = db_getTermCodeList();
+    
+    $('#term_code_list').empty();
+    var html = "";
+    for (var i = 0; i < result.length; i++) {
+        html += "<option value='" + result[i]['TermCode'] + "'>" + result[i]['TermCode'] + "</option>";
+    }
+    
+    $('#term_code_list').append(html);
+    $('#term_code_list').selectpicker('refresh');
+}
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function getOptOutList() {
+    var sel_term_code = $('#term_code_list').val();
     var result = new Array(); 
-    result = db_getOptOutList(m_term_code);
+    result = db_getOptOutList(sel_term_code);
 
     m_table.clear();
     m_table.rows.add(result).draw();

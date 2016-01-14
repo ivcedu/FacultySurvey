@@ -19,6 +19,7 @@
         <link rel="stylesheet" href="../homer-1.5/styles/static_custom.css">
         <!-- include css -->
         <link rel="stylesheet" href="../include/sweetalert/css/sweetalert.css"/>
+        <link rel="stylesheet" href="../include/bootstrap-select/css/bootstrap-select.1.5.4.min.css"/>
         <!-- application css -->
     </head>
     <body>
@@ -66,8 +67,16 @@
             <div class="normalheader transition animated fadeIn">
                 <div class="hpanel">
                     <div class="panel-body">
-                        <h3 class="font-light m-b-xs">Opt Out List</h3>
-                        <h4 class="font-light m-b-xs" id="term_code"></h4>
+                        <div class="container-fluid">
+                            <div class="row">
+                                <h3 class="font-light m-b-xs text-center">Opt Out List</h3>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-1" style="padding-top: 7px;">Term Code:</div>
+                                <div class="col-md-1"><select class="selectpicker form-control" data-container="body" id="term_code_list"></select></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -117,6 +126,7 @@
         <script src="../homer-1.5/vendor/datatables_plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
         <!-- include javascript -->
         <script src="../include/sweetalert/js/sweetalert.min.js"></script>
+        <script src="../include/bootstrap-select/js/bootstrap-select.1.5.4.min.js"></script>
         <!-- application javascript -->
         <script src="js/rptOptOutList.js"></script>
         <script src="js/session_data.js"></script>

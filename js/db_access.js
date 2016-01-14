@@ -112,6 +112,19 @@ function db_getOptOutList(TermCode) {
     return result;
 }
 
+function db_getTermCodeList() {
+    var result = new Array();
+    $.ajax({
+        type:"POST",
+        url:"php/db_getTermCodeList.php",
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
 // insert DB ///////////////////////////////////////////////////////////////////
 function db_insertAdmin(AdminName, AdminEmail) {
     var ResultID = "";
