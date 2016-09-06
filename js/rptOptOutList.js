@@ -121,7 +121,7 @@ $(document).ready(function() {
     
     // mod activity change event ///////////////////////////////////////////////
     $('#term_code_list').change(function() {
-        getOptOutList()
+        getOptOutList();
         return false;
     });
     
