@@ -13,6 +13,8 @@ window.onload = function() {
         
         getLoginInfo();
         m_term_code = tardis_getCurrentTerm();
+        // temp fix
+        m_term_code = "20162";
         $('#term_code').html("Current Term Code: " + m_term_code);
         getCurrentSurveyDateRange();
     }
