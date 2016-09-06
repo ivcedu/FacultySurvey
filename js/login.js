@@ -114,7 +114,7 @@ function isUserAdmin() {
 function validateFacultySurvey() {
     var term_code = tardis_getCurrentTerm();
     // temp fix
-    term_code = "20162"
+    term_code = "20162";
     var result = new Array();
     result = db_getSurveyDateByTermCode(term_code);
     
