@@ -68,7 +68,7 @@ $(document).ready(function() {
 ////////////////////////////////////////////////////////////////////////////////
 function loginInfo() {   
     var result = new Array();
-    m_username = $('#username').val().toLowerCase().replace("@ivc.edu", "");
+    m_username = $('#username').val().toLowerCase().replace("@ivc.edu", "").replace("@saddleback.edu", "");
     m_password = $('#password').val();
     
     result = getLoginUserInfo("php/login.php", m_username, m_password);
@@ -113,6 +113,8 @@ function isUserAdmin() {
 ////////////////////////////////////////////////////////////////////////////////
 function validateFacultySurvey() {
     var term_code = tardis_getCurrentTerm();
+    // temp fix
+    term_code = "20162"
     var result = new Array();
     result = db_getSurveyDateByTermCode(term_code);
     
