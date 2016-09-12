@@ -28,6 +28,19 @@ function tardis_getCurrentTerm() {
     return result;
 }
 
+function tardis_getTermCodeList() {
+    var result = new Array();
+    $.ajax({
+        type:"POST",
+        url:"php/tardis_getTermCodeList.php",
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
 // get DB //////////////////////////////////////////////////////////////////////
 function db_getAdminByEmail(AdminEmail) {
     var result = new Array();
@@ -125,6 +138,19 @@ function db_getTermCodeList() {
     return result;
 }
 
+function db_getOptOutTerm() {
+    var result = "";
+    $.ajax({
+        type:"POST",
+        url:"php/db_getOptOutTerm.php",
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
 // insert DB ///////////////////////////////////////////////////////////////////
 function db_insertAdmin(AdminName, AdminEmail) {
     var ResultID = "";
@@ -160,6 +186,20 @@ function db_insertSurveyDate(TermCode, StartDate, EndDate) {
         type:"POST",
         url:"php/db_insertSurveyDate.php",
         data:{TermCode:TermCode, StartDate:StartDate, EndDate:EndDate},
+        async: false,  
+        success:function(data) {
+            ResultID = JSON.parse(data);
+        }
+    });
+    return ResultID;
+}
+
+function db_insertOptOutTerm(TermCode) {
+    var ResultID = "";
+    $.ajax({
+        type:"POST",
+        url:"php/db_insertOptOutTerm.php",
+        data:{TermCode:TermCode},
         async: false,  
         success:function(data) {
             ResultID = JSON.parse(data);
@@ -211,20 +251,34 @@ function db_updateSurveyDate(TermCode, StartDate, EndDate) {
     return Result;
 }
 
+function db_updateOptOutTerm(OptOutTermID, TermCode) {
+    var Result = false;
+    $.ajax({
+        type:"POST",
+        url:"php/db_updateOptOutTerm.php",
+        data:{OptOutTermID:OptOutTermID, TermCode:TermCode},
+        async: false,  
+        success:function(data) {
+            Result = JSON.parse(data);
+        }
+    });
+    return Result;
+}
+
 // delete DB ///////////////////////////////////////////////////////////////////
-//function db_deleteAdmin(AdminID) {
-//    var Result = false;
-//    $.ajax({
-//        type:"POST",
-//        url:"php/db_deleteAdmin.php",
-//        data:{AdminID:AdminID},
-//        async: false,  
-//        success:function(data) {
-//            Result = JSON.parse(data);
-//        }
-//    });
-//    return Result;
-//}
+function db_deleteAdmin(AdminID) {
+    var Result = false;
+    $.ajax({
+        type:"POST",
+        url:"php/db_deleteAdmin.php",
+        data:{AdminID:AdminID},
+        async: false,  
+        success:function(data) {
+            Result = JSON.parse(data);
+        }
+    });
+    return Result;
+}
 
 // create csv //////////////////////////////////////////////////////////////////
 function tardis_getFacultyCourseList(TermCode) {

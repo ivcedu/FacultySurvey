@@ -20,6 +20,7 @@
         <link rel="stylesheet" href="../include/sweetalert/css/sweetalert.css"/>
         <link rel="stylesheet" href="../include/jquery-ui-themes-1.11.4/themes/flick/jquery-ui.min.css"/>
         <link rel="stylesheet" href="../include/bootstrap-3-timepicker/css/bootstrap-timepicker.min.css"/>
+        <link rel="stylesheet" href="../include/bootstrap-select/css/bootstrap-select.1.5.4.min.css"/>
         <!-- application css -->
     </head>
     <body>
@@ -68,25 +69,35 @@
                 <div class="hpanel">
                     <div class="panel-body">
                         <h3 class="font-light m-b-xs">Import Courses / Create Faculty or Student Excel List</h3>
-                        <h4 class="font-light m-b-xs" id="term_code"></h4>
+                        <!--<h4 class="font-light m-b-xs" id="term_code"></h4>-->
                         <br>
+                        <div class="row">
+                            <div class="col-xs-5 col-sm-3 col-md-3 col-lg-2">
+                                <h4 class="font-light m-b-xs">Opt-Out Term:</h4>
+                            </div>
+                            <div class="col-xs-5 col-sm-3 col-md-3 col-lg-2">
+                                <select class="selectpicker form-control" data-container="body" id="tardis_term_code_list"></select>
+                            </div>
+                            <div class="col-xs-5 col-xs-offset-5 col-sm-3 col-sm-offset-3 col-md-3 col-md-offset-3 col-lg-2 col-lg-offset-2">
+                                <button type="button" class="btn btn-success col-xs-12 col-sm-12 col-md-12 col-lg-12" id="btn_term_code_update"><i class="fa fa-upload"></i> Update</button>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-xs-5 col-sm-3 col-md-3 col-lg-2">
                                 <h4 class="font-light m-b-xs">Survey Date Range:</h4>
                             </div>
-                            <div class="col-xs-5 col-sm-3 col-md-3 col-lg-2" style="padding-top: 10px;">
+                            <div class="col-xs-5 col-sm-3 col-md-3 col-lg-2">
                                 <input class="form-control" type="text" placeholder="click here" readonly id="start_date">
                             </div>
-                            <div class="col-xs-5 col-sm-3 col-md-3 col-lg-2" style="padding-top: 10px;">
+                            <div class="col-xs-5 col-sm-3 col-md-3 col-lg-2">
                                 <input class="form-control" type="text" placeholder="click here" readonly id="end_date">
                             </div>
-                            <div class="col-xs-5 col-sm-3 col-md-3 col-lg-2" style="padding-top: 10px;">
+                            <div class="col-xs-5 col-sm-3 col-md-3 col-lg-2">
                                 <button type="button" class="btn btn-primary col-xs-12 col-sm-12 col-md-12 col-lg-12" id="btn_date_update"><i class="fa fa-upload"></i> Update</button>
                             </div>
                         </div>
                         <br>
-                        <!-- spinner -->
-                        <div class='spinner' id="spinner"></div>
+                        <br>
                         <div class="row">
                             <div class="col-xs-5 col-sm-3 col-md-3 col-lg-2">
                                 <button type="button" class="btn btn-primary col-xs-12 col-sm-12 col-md-12 col-lg-12" id="btn_import"><i class="fa fa-download"></i> Import Courses</button>
@@ -101,10 +112,6 @@
                     </div>
                 </div>
             </div>
-            
-            <div class="content animate-panel">
-                <div id="admin_list"></div>
-            </div>
         </div>
         
         <!-- homer-1.5 Vendor javascript -->
@@ -116,12 +123,12 @@
         <script src="../homer-1.5/vendor/iCheck/icheck.min.js"></script>
         <script src="../homer-1.5/vendor/sparkline/index.js"></script>
         <!-- include javascript -->
-        <script src="../include/utilities/js/spin.min.js"></script>
         <script src="../include/sweetalert/js/sweetalert.min.js"></script>
         <script src="../include/bowser/bowser.min.js"></script>
         <script src="../include/jquery-ui-1.11.4/js/jquery-ui.min.js"></script>
         <script src="../include/bootstrap-3-timepicker/js/bootstrap-timepicker.min.js"></script>
         <script src="../include/utilities/js/spin.min.js"></script>
+        <script src="../include/bootstrap-select/js/bootstrap-select.1.5.4.min.js"></script>
         <!-- application javascript -->
         <script src="js/adminImportCourses.js"></script>
         <script src="js/session_data.js"></script>

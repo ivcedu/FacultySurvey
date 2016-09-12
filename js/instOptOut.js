@@ -115,10 +115,9 @@ $(document).ready(function() {
     
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    $('#nav_logout').click(function() {
-        var parent_site = sessionStorage.getItem('m_parentSite');
+    $('#nav_logout').click(function() {        
         sessionStorage.clear();
-        window.open(parent_site, '_self');
+        window.open('login.html', '_self');
         return false;
     });
     
@@ -206,7 +205,7 @@ function getLoginInfo() {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function getInstCourseList() {
-    var login_user_name = sessionStorage.getItem('ss_fasv_loginUserName');    
+    var login_user_name = sessionStorage.getItem('ss_fasv_loginEmail').replace("@ivc.edu", "").replace("@saddleback.edu", "");    
     var result = new Array();
     result = db_getInstSurveyCourseList(m_term_code, login_user_name);
     

@@ -1,11 +1,3 @@
-var m_ID = "";
-var m_name = "";
-var m_email = "";
-var m_type = "";
-
-var m_username = "";
-var m_password = "";
-
 ////////////////////////////////////////////////////////////////////////////////
 window.onload = function() {  
     $('#logn_error').hide();
@@ -36,12 +28,9 @@ window.onload = function() {
 
 ////////////////////////////////////////////////////////////////////////////////
 $(document).ready(function() {      
-    $('#btn_login').click(function() { 
-        $('#error_msg').html("");
-        $('#logn_error').hide();
-
-        if(loginInfo()) {
-            sessionData_login(m_ID, m_name, m_email, m_type);
+    $('#btn_login').click(function() {
+        var login_error = loginInfo();
+        if(login_error === "") {
             if (isUserAdmin()) {
                 window.open('adminImportCourses.html', '_self');
                 return false;
@@ -51,48 +40,62 @@ $(document).ready(function() {
                     swal({title: "Read", text: "Faculty Opt Out student evaluation survey has not been start or due date has been past", type: "warning"});
                 }
                 else {
-                    sessionStorage.setItem('ss_fasv_loginUserName', m_username);
                     window.open('instOptOut.html', '_self');
                 }
                 return false;
             }
         }
         else {
-            $('#error_msg').html("Invalid username or password");
+            $('#error_msg').html(login_error);
             $('#logn_error').show();
+            this.blur();
             return false;
         }
     });
+    
+    $.backstretch(["images/fs_back_web_3.jpg"], {duration: 3000, fade: 750});
 });
 
 ////////////////////////////////////////////////////////////////////////////////
-function loginInfo() {   
-    var result = new Array();
-    m_username = $('#username').val().toLowerCase().replace("@ivc.edu", "").replace("@saddleback.edu", "");
-    m_password = $('#password').val();
-    
-    result = getLoginUserInfo("php/login.php", m_username, m_password);
-    if (result.length === 0) {
-        result = getLoginUserInfo("php/login_saddleback.php", m_username, m_password);
-    }
-    
-    if (result.length === 0) {
-        return false;
+function loginEmailValidation(login_email) {    
+    if (login_email.indexOf("@ivc.edu") !== -1 || login_email.indexOf("@saddleback.edu") !== -1) {
+        return "";
     }
     else {
-        m_ID = objToString(result[0]);
-        m_name = objToString(result[1]);
-        m_email = objToString(result[2]);
-        m_type = objToString(result[3]);
+        return "Invalid Email";
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+function loginInfo() {    
+    var result = new Array();
+    var username = $('#username').val().toLowerCase();
+    var password = $('#password').val();
+    var error = loginEmailValidation(username);
+    if(error !== "") {
+        return error;
+    }
+    
+    if (username.indexOf("@ivc.edu") >= 1) {
+        username = username.replace("@ivc.edu", "");
+        result = getLoginUserInfo("php/login.php", username, password);
+    }
+    else {
+        username = username.replace("@saddleback.edu", "");
+        result = getLoginUserInfo("php/login_saddleback.php", username, password);
+    }
+    
+    if (result.length === 0) {
+        return "Invalid Email or Password";
+    }
+    else {
+        var ID = objToString(result[0]);
+        var name = objToString(result[1]);
+        var email = objToString(result[2]);
+        var type = objToString(result[3]);
         
-        if (location.href.indexOf("ireport.ivc.edu") >= 0) {
-            sessionStorage.setItem('m_parentSite', 'https://ireport.ivc.edu');
-        }
-        else {
-            sessionStorage.setItem('m_parentSite', 'https://services.ivc.edu');
-        }
-        
-        return true;
+        sessionData_login(ID, name, email, type);
+        return "";
     }
 }
 
@@ -112,9 +115,7 @@ function isUserAdmin() {
 
 ////////////////////////////////////////////////////////////////////////////////
 function validateFacultySurvey() {
-    var term_code = tardis_getCurrentTerm();
-    // temp fix
-    term_code = "20162";
+    var term_code = db_getOptOutTerm();
     var result = new Array();
     result = db_getSurveyDateByTermCode(term_code);
     

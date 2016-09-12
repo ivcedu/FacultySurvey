@@ -1,22 +1,11 @@
 var m_term_code = "";
-var m_sur_date_exist = false;
-
-var target;
-var spinner;
 ////////////////////////////////////////////////////////////////////////////////
 window.onload = function() {
     if (sessionStorage.key(0) !== null) {
         $('.splash').css('display', 'none');
         
-        target = $('#spinner')[0];
-        spinner = new Spinner();
-        
         getLoginInfo();
-        m_term_code = tardis_getCurrentTerm();
-        // temp fix
-        m_term_code = "20162";
-        $('#term_code').html("Current Term Code: " + m_term_code);
-        getCurrentSurveyDateRange();
+        setTardisTermCodeList();
     }
     else {
         window.open('login.html', '_self');
@@ -122,11 +111,28 @@ $(document).ready(function() {
     
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    $('#nav_logout').click(function() {        
-        var parent_site = sessionStorage.getItem('m_parentSite');
+    $('#nav_logout').click(function() {
         sessionStorage.clear();
-        window.open(parent_site, '_self');
+        window.open('login.html', '_self');
         return false;
+    });
+    
+    // mod activity change event ///////////////////////////////////////////////
+    $('#tardis_term_code_list').change(function() {
+        m_term_code = $('#tardis_term_code_list').val();
+        getCurrentSurveyDateRange();
+        return false;
+    });
+    
+    // update opt-out term conde button click //////////////////////////////////
+    $('#btn_term_code_update').click(function() {
+        if (updateActiveTermCode()) {
+            swal({title: "Update Completed", text: $('#tardis_term_code_list').val() + " Term Code has been set to current active Opt-Out successfully", type: "success"});
+        }
+        else {
+            swal({title: "Error", text: $('#tardis_term_code_list').val() + " Term Code Opt-Out is completed/currently active", type: "error"});
+        }
+        getCurrentSurveyDateRange();
     });
     
     // update (survey date) button click ///////////////////////////////////////
@@ -154,11 +160,6 @@ $(document).ready(function() {
     // faculty list button click ///////////////////////////////////////////////
     $('#btn_excel_faculty').click(function() {        
         location.href = "php/cvs_FacultyCourseList.php?TermCode=" + m_term_code;     
-//        startSpin();        
-//        setTimeout(function() {
-//            tardisGetFacultyCourseList();
-//            stopSpin();
-//        }, 10000);
     });
     
     // student list button click ///////////////////////////////////////////////
@@ -169,6 +170,9 @@ $(document).ready(function() {
     // bootstrap datepicker
     $('#start_date').datepicker();
     $('#end_date').datepicker();
+    
+    // bootstrap selectpicker
+    $('.selectpicker').selectpicker();
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 });
@@ -242,18 +246,25 @@ $.fn['animatePanel'] = function() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-function startSpin() {
-    spinner.spin(target);
-}
-
-function stopSpin() {
-    spinner.stop();
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function getLoginInfo() {
     var login_name = sessionStorage.getItem('ss_fasv_loginName');
     $('#login_user').html(login_name);
+}
+
+function setTardisTermCodeList() {
+    var result = new Array(); 
+    result = tardis_getTermCodeList();
+    
+    $('#tardis_term_code_list').empty();
+    var html = "";
+    for (var i = 0; i < result.length; i++) {
+        html += "<option value='" + result[i]['TermCode'] + "'>" + result[i]['TermCode'] + "</option>";
+    }
+    
+    $('#tardis_term_code_list').append(html);
+    m_term_code = db_getOptOutTerm();
+    $('#tardis_term_code_list').val(m_term_code);
+    $('#tardis_term_code_list').selectpicker('refresh');
 }
 
 function getCurrentSurveyDateRange() {
@@ -261,9 +272,12 @@ function getCurrentSurveyDateRange() {
     result = db_getSurveyDateByTermCode(m_term_code);
     
     if (result.length === 1) {
-        m_sur_date_exist = true;
         $('#start_date').val(result[0]['StartDate']);
         $('#end_date').val(result[0]['EndDate']);
+    }
+    else {
+        $('#start_date').val("");
+        $('#end_date').val("");
     }
 }
 
@@ -276,82 +290,73 @@ function updateSurveyDateRange() {
         return false;
     }
     else {        
-        if (m_sur_date_exist) {
-            db_updateSurveyDate(m_term_code, start_date, end_date);
-        }
-        else {
-            db_insertSurveyDate(m_term_code, start_date, end_date);
-            m_sur_date_exist = true;
-        }
+        db_insertSurveyDate(m_term_code, start_date, end_date);
         return true;
+    }
+}
+
+function updateActiveTermCode() {
+    var result = new Array();
+    result = db_getSurveyDateByTermCode(m_term_code);
+    
+    if (result.length === 0) {
+        db_updateOptOutTerm(1, m_term_code);
+        return true;
+    }
+    else {
+        return false;
     }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function tardisGetFacultyCourseList() {
-    var result = new Array();
-    result = tardis_getFacultyCourseList(m_term_code);
-    
-    var str_data = "usertype,title,firstname,surename,email,course_name,course_code,program_of_studies,course_type,course_participants\n";
-    for (var i = 0; i < result.length; i++) {
-        str_data += result[i]['UserType'] + ",";
-        str_data += result[i]['Title'] + ",";
-        str_data += result[i]['FirstName'] + ",";
-        str_data += result[i]['LastName'] + ",";
-        str_data += result[i]['Email'] + ",";
-        str_data += result[i]['CourseTitle'] + ",";
-        str_data += result[i]['SectionNum'] + ",";
-        str_data += result[i]['CourseID'] + ",";
-        str_data += result[i]['CourseType'] + ",";
-        str_data += result[i]['Participants'] + "\n";
-    }
-    download(str_data, "export_faculty_list.csv", "text/csv");
-
-//    var curBrowser = bowser.name;
-//    if (curBrowser === "Internet Explorer") {
-//        download(str_data, "export_faculty_list.csv", "text/csv");
+//function tardisGetFacultyCourseList() {
+//    var result = new Array();
+//    result = tardis_getFacultyCourseList(m_term_code);
+//    
+//    var str_data = "usertype,title,firstname,surename,email,course_name,course_code,program_of_studies,course_type,course_participants\n";
+//    for (var i = 0; i < result.length; i++) {
+//        str_data += result[i]['UserType'] + ",";
+//        str_data += result[i]['Title'] + ",";
+//        str_data += result[i]['FirstName'] + ",";
+//        str_data += result[i]['LastName'] + ",";
+//        str_data += result[i]['Email'] + ",";
+//        str_data += result[i]['CourseTitle'] + ",";
+//        str_data += result[i]['SectionNum'] + ",";
+//        str_data += result[i]['CourseID'] + ",";
+//        str_data += result[i]['CourseType'] + ",";
+//        str_data += result[i]['Participants'] + "\n";
 //    }
-//    else {
-//        var blob = new Blob([str_data], { type: 'text/csv;charset=utf-8;' });
-//        var link = document.createElement("a");
-//        var url = URL.createObjectURL(blob);
-//        link.setAttribute("href", url);
-//        link.setAttribute("download", "export_faculty_list.csv");
-//        link.style.visibility = 'hidden';
-//        document.body.appendChild(link);
-//        link.click();
-//        document.body.removeChild(link);
+//    download(str_data, "export_faculty_list.csv", "text/csv");
+//}
+//
+//function download(strData, strFileName, strMimeType) {
+//    var D = document,
+//        a = D.createElement("a");
+//        strMimeType = strMimeType || "application/octet-stream";
+//
+//    if (navigator.msSaveBlob) { // IE10
+//        return navigator.msSaveBlob(new Blob([strData], {type: strMimeType}), strFileName);
 //    }
-}
-
-function download(strData, strFileName, strMimeType) {
-    var D = document,
-        a = D.createElement("a");
-        strMimeType = strMimeType || "application/octet-stream";
-
-    if (navigator.msSaveBlob) { // IE10
-        return navigator.msSaveBlob(new Blob([strData], {type: strMimeType}), strFileName);
-    }
-
-    if ('download' in a) { //html5 A[download]
-        a.href = "data:" + strMimeType + "," + encodeURIComponent(strData);
-        a.setAttribute("download", strFileName);
-        a.innerHTML = "downloading...";
-        D.body.appendChild(a);
-        setTimeout(function() {
-            a.click();
-            D.body.removeChild(a);
-        }, 66);
-        return true;
-    } /* end if('download' in a) */
-
-    //do iframe dataURL download (old ch+FF):
-    var f = D.createElement("iframe");
-    D.body.appendChild(f);
-    f.src = "data:" +  strMimeType   + "," + encodeURIComponent(strData);
-
-    setTimeout(function() {
-        D.body.removeChild(f);
-    }, 333);
-    return true;
-}
+//
+//    if ('download' in a) { //html5 A[download]
+//        a.href = "data:" + strMimeType + "," + encodeURIComponent(strData);
+//        a.setAttribute("download", strFileName);
+//        a.innerHTML = "downloading...";
+//        D.body.appendChild(a);
+//        setTimeout(function() {
+//            a.click();
+//            D.body.removeChild(a);
+//        }, 66);
+//        return true;
+//    } /* end if('download' in a) */
+//
+//    //do iframe dataURL download (old ch+FF):
+//    var f = D.createElement("iframe");
+//    D.body.appendChild(f);
+//    f.src = "data:" +  strMimeType   + "," + encodeURIComponent(strData);
+//
+//    setTimeout(function() {
+//        D.body.removeChild(f);
+//    }, 333);
+//    return true;
+//}
