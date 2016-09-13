@@ -5,9 +5,7 @@ var m_instructor_id = "";
 window.onload = function() {
     if (sessionStorage.key(0) !== null) {
         $('.splash').css('display', 'none');
-        m_term_code = tardis_getCurrentTerm();
-        // temp fix
-        m_term_code = "20162";
+        m_term_code = db_getOptOutTerm();
         getLoginInfo();
         getInstCourseList();
     }
