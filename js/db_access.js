@@ -294,3 +294,19 @@ function tardis_getFacultyCourseList(TermCode) {
     });
     return result;
 }
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+function ireportDBgetUserAccess(Username) {   
+    var Result = "";
+    $.ajax({
+        type:"POST",
+        url:"php/ireport_db_getUserAccess.php",
+        data:{Username:Username},
+        async: false,  
+        success:function(data) {
+            Result = JSON.parse(data);
+        }
+    });
+    return Result;
+}

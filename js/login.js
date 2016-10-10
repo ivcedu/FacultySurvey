@@ -29,27 +29,43 @@ window.onload = function() {
 ////////////////////////////////////////////////////////////////////////////////
 $(document).ready(function() {      
     $('#btn_login').click(function() {
-        var login_error = loginInfo();
-        if(login_error === "") {
-            if (isUserAdmin()) {
-                window.open('adminImportCourses.html', '_self');
-                return false;
-            }
-            else {
-                if (!validateFacultySurvey()) {
-                    swal({title: "Read", text: "Faculty Opt Out student evaluation survey has not been start or due date has been past", type: "warning"});
+        // ireport.ivc.edu validation //////////////////////////////////////////
+        if(location.href.indexOf("ireport.ivc.edu") >= 0 && !ireportValidation()) {
+            swal({  title: "Access Denied",
+                    text: "This is a Development site. It will redirect to IVC Application site",
+                    type: "error",
+                    confirmButtonText: "OK" },
+                    function() {
+                        sessionStorage.clear();
+                        window.open('https://services.ivc.edu/', '_self');
+                        return false;
+                    }
+            );
+        }
+        ////////////////////////////////////////////////////////////////////////
+        else {
+            var login_error = loginInfo();
+            if(login_error === "") {
+                if (isUserAdmin()) {
+                    window.open('adminImportCourses.html', '_self');
+                    return false;
                 }
                 else {
-                    window.open('instOptOut.html', '_self');
+                    if (!validateFacultySurvey()) {
+                        swal({title: "Read", text: "Faculty Opt Out student evaluation survey has not been start or due date has been past", type: "warning"});
+                    }
+                    else {
+                        window.open('instOptOut.html', '_self');
+                    }
+                    return false;
                 }
+            }
+            else {
+                $('#error_msg').html(login_error);
+                $('#logn_error').show();
+                this.blur();
                 return false;
             }
-        }
-        else {
-            $('#error_msg').html(login_error);
-            $('#logn_error').show();
-            this.blur();
-            return false;
         }
     });
     
@@ -131,6 +147,17 @@ function validateFacultySurvey() {
         else {
             return false;
         }
+    }
+    else {
+        return false;
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+function ireportValidation() {
+    var username = $('#username').val().toLowerCase().replace("@ivc.edu", "").replace("@saddleback.edu", "");
+    if (ireportDBgetUserAccess(username) !== null) {
+        return true;
     }
     else {
         return false;
