@@ -21,7 +21,7 @@
 //    fputcsv($out, array('SectionNum','StudentEmail'));
     // Write all the records to the spreadsheet
     foreach($data as $row) {
-        fputcsv($out, array($row['SectionNum'], $row['Email']));
+        fputcsv($out, array($TermCode."_".$row['SectionNum'], $row['Email']));
     }
     
     fclose($out);

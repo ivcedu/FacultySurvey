@@ -50,7 +50,7 @@
     fputcsv($out, array('usertype','title','firstname', 'surname', 'email', 'course_name', 'course_code', 'program_of_studies', 'course_type', 'course_participants'));
     // Write all the records to the spreadsheet
     foreach($data as $row) {
-        fputcsv($out, array($row['UserType'], $row['Title'], $row['FirstName'], $row['LastName'], $row['Email'], $row['CourseTitle'], $row['SectionNum'], $row['CourseID'], $row['CourseType'], $row['Participants']));
+        fputcsv($out, array($row['UserType'], $row['Title'], $row['FirstName'], $row['LastName'], $row['Email'], $row['CourseTitle'], $TermCode."_".$row['SectionNum'], $row['CourseID'], $row['CourseType'], $row['Participants']));
     }
     
     fclose($out);
