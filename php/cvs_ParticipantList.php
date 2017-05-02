@@ -4,8 +4,8 @@
     $TermCode = filter_input(INPUT_GET, 'TermCode');
 
     $query = "SELECT svcr.SectionNum, stin.Email "
-            . "FROM [IVCFASV].[dbo].[SurveyCourse] AS svcr LEFT JOIN [TOPSPIN.SOCCCD.EDU\TOPSPIN].[Tardis].[dbo].[StudentCourses] AS stcr ON svcr.SectionNum = stcr.SectionNum AND stcr.TermCode = '".$TermCode."'"
-            . "LEFT JOIN [TOPSPIN.SOCCCD.EDU\TOPSPIN].[Tardis].[dbo].[StudentInfo] AS stin ON stcr.StudentID = stin.StudentID "
+            . "FROM [IVCFASV].[dbo].[SurveyCourse] AS svcr LEFT JOIN [SKYBLAST.SOCCCD.EDU].[Tardis].[dbo].[StudentCourses] AS stcr ON svcr.SectionNum = stcr.SectionNum AND stcr.TermCode = '".$TermCode."'"
+            . "LEFT JOIN [SKYBLAST.SOCCCD.EDU].[Tardis].[dbo].[StudentInfo] AS stin ON stcr.StudentID = stin.StudentID "
             . "WHERE svcr.TermCode = '".$TermCode."' AND svcr.OptOut = 0";
 
     $cmd = $dbConn->prepare($query);

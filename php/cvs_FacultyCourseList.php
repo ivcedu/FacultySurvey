@@ -7,12 +7,12 @@
     
     $query1 = "CREATE TABLE #RESULT1 (Title nvarchar(255), FirstName nvarchar(255), LastName nvarchar(255), Email nvarchar(255), CourseTitle nvarchar(255), SectionNum nvarchar(255), CourseID nvarchar(255))";
     $query2 = "INSERT INTO #RESULT1 SELECT empl.Title, empl.FirstName, empl.LastName, empl.Email, svcr.CourseTitle, svcr.SectionNum, svcr.CourseID "
-            . "FROM [IVCFASV].[dbo].[SurveyCourse] AS svcr LEFT JOIN [TOPSPIN.SOCCCD.EDU\TOPSPIN].[Tardis].[dbo].[EmployeeInfo] AS empl ON svcr.InstructorUID = empl.UserID "
+            . "FROM [IVCFASV].[dbo].[SurveyCourse] AS svcr LEFT JOIN [SKYBLAST.SOCCCD.EDU].[Tardis].[dbo].[EmployeeInfo] AS empl ON svcr.InstructorUID = empl.UserID "
             . "WHERE svcr.TermCode = '".$TermCode."' AND svcr.OptOut = 0";
     
     $query3 = "CREATE TABLE #RESULT2 (SectionNum nvarchar(255), Participants int)";
     $query4 = "INSERT INTO #RESULT2 SELECT SectionNum, COUNT(StudentID) "
-            . "FROM [TOPSPIN.SOCCCD.EDU\TOPSPIN].[Tardis].[dbo].[StudentCourses] "
+            . "FROM [SKYBLAST.SOCCCD.EDU].[Tardis].[dbo].[StudentCourses] "
             . "WHERE TermCode = '".$TermCode."' GROUP BY SectionNum";
     
     $query5 = "CREATE TABLE #RESULT3 (Title nvarchar(255), FirstName nvarchar(255), LastName nvarchar(255), Email nvarchar(255), CourseTitle nvarchar(255), SectionNum nvarchar(255), CourseID nvarchar(255), Participants int)";

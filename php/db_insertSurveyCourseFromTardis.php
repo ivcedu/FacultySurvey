@@ -7,12 +7,12 @@
     
     $query1 = "CREATE TABLE #RESULT1 (TermCode nvarchar(255), InstructorUID nvarchar(255), SectionNum nvarchar(255), CourseID nvarchar(255), CourseTitle nvarchar(255), CourseDescription nvarchar(255))";
     $query2 = "INSERT INTO #RESULT1 SELECT TermCode, InstructorUID, SectionNum, CourseID, CourseTitle, CourseDescription "
-            . "FROM [TOPSPIN.SOCCCD.EDU\TOPSPIN].[Tardis].[dbo].[CourseInfo] "
+            . "FROM [SKYBLAST.SOCCCD.EDU].[Tardis].[dbo].[CourseInfo] "
             . "WHERE  CollegeCode = 'I' AND TermCode = '".$TermCode."'";
     
     $query3 = "CREATE TABLE #RESULT2 (SectionNum nvarchar(255), Participants int)";
     $query4 = "INSERT INTO #RESULT2 SELECT SectionNum, COUNT(StudentID) "
-            . "FROM [TOPSPIN.SOCCCD.EDU\TOPSPIN].[Tardis].[dbo].[StudentCourses] "
+            . "FROM [SKYBLAST.SOCCCD.EDU].[Tardis].[dbo].[StudentCourses] "
             . "WHERE TermCode = '".$TermCode."' GROUP BY SectionNum";
     
     $query5 = "INSERT INTO [IVCFASV].[dbo].[SurveyCourse] (TermCode, InstructorUID, SectionNum, CourseID, CourseTitle, CourseDescription) "
