@@ -6,6 +6,7 @@ window.onload = function() {
         
         getLoginInfo();
         setTardisTermCodeList();
+        getCurrentSurveyDateRange();
     }
     else {
         window.open('login.html', '_self');
