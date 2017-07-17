@@ -286,12 +286,21 @@ function getCurrentSurveyDateRange() {
 function updateSurveyDateRange() {
     var start_date = $('#start_date').val();
     var end_date = $('#end_date').val();
-    
+
     if (start_date === "" || end_date === "") {
         return false;
     }
-    else {        
-        db_insertSurveyDate(m_term_code, start_date, end_date);
+    else {
+        var result = new Array();
+        result = db_getSurveyDateByTermCode(m_term_code);
+        
+        if (result.length === 0) {
+            db_insertSurveyDate(m_term_code, start_date, end_date);
+        }
+        else {
+            db_updateSurveyDate(m_term_code, start_date, end_date);
+        }
+        
         return true;
     }
 }
