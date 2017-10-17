@@ -121,7 +121,6 @@ function isUserAdmin() {
     result = db_getAdminByEmail(sessionStorage.getItem('ss_fasv_loginEmail'));
     
     if (result.length === 1) {
-        m_type = "Admin";
         return true;
     }
     else {

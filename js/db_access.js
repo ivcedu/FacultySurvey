@@ -41,6 +41,19 @@ function tardis_getTermCodeList() {
     return result;
 }
 
+function tardis_getOnlineHybridStudentEmailList(TermCode, StartDate, EndDate) {
+    var result = new Array();
+    $.ajax({
+        type:"POST",
+        url:"php/tardis_getOnlineHybridStudentEmailList.php",
+        data:{TermCode:TermCode, StartDate:StartDate, EndDate:EndDate},
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
 // get DB //////////////////////////////////////////////////////////////////////
 function db_getAdminByEmail(AdminEmail) {
     var result = new Array();

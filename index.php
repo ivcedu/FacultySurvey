@@ -29,7 +29,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="text-center m-b-md">
-                        <h2 style="color: white;"><i class="pe-7s-unlock pe-2x pe-va" style="color: #fcae11;"></i> IVC Faculty Eval Opt-Out</h2>
+                        <h3 style="color: white;"><i class="pe-7s-unlock pe-2x pe-va" style="color: #fcae11;"></i> IVC Faculty Eval Opt-Out</h3>
                     </div>
                     <div class="hpanel">
                         <div class="panel-body">

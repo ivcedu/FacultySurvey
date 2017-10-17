@@ -3,12 +3,18 @@ var admin_id = "";
 ////////////////////////////////////////////////////////////////////////////////
 window.onload = function() {
     if (sessionStorage.key(0) !== null) {
+        if (!isUserAdmin()) {
+            window.open('login.html', '_self');
+            return false;
+        }
+        
         $('.splash').css('display', 'none');
         getLoginInfo();
         getAdminList();
     }
     else {
         window.open('login.html', '_self');
+        return false;
     }
 };
 
@@ -231,6 +237,18 @@ function resetModAdminInfo() {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function isUserAdmin() {
+    var result = new Array();
+    result = db_getAdminByEmail(sessionStorage.getItem('ss_fasv_loginEmail'));
+    
+    if (result.length === 1) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
 function getLoginInfo() {
     var login_name = sessionStorage.getItem('ss_fasv_loginName');
     $('#login_user').html(login_name);

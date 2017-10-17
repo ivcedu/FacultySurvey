@@ -2,14 +2,19 @@ var m_term_code = "";
 ////////////////////////////////////////////////////////////////////////////////
 window.onload = function() {
     if (sessionStorage.key(0) !== null) {
-        $('.splash').css('display', 'none');
+        if (!isUserAdmin()) {
+            window.open('login.html', '_self');
+            return false;
+        }
         
+        $('.splash').css('display', 'none');
         getLoginInfo();
         setTardisTermCodeList();
         getCurrentSurveyDateRange();
     }
     else {
         window.open('login.html', '_self');
+        return false;
     }
 };
 
@@ -246,6 +251,18 @@ $.fn['animatePanel'] = function() {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function isUserAdmin() {
+    var result = new Array();
+    result = db_getAdminByEmail(sessionStorage.getItem('ss_fasv_loginEmail'));
+    
+    if (result.length === 1) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 function getLoginInfo() {
     var login_name = sessionStorage.getItem('ss_fasv_loginName');
