@@ -11,7 +11,7 @@
             . "WHERE stcr.DropDate = '' "
             . "AND crin.CollegeCode = 'I' AND crin.TermCode = '".$TermCode."' "
             . "AND (crin.InstructionMethod = 'M72' OR crin.InstructionMethod = 'M73') "
-            . "AND crin.StartDate >= '".$StartDate."' AND crin.EndDate <= '".$EndDate."'";
+            . "AND crin.EndDate BETWEEN '".$StartDate."' AND '".$EndDate."'";
 
     $cmd = $dbConn->prepare($query);
     $cmd->execute(); 
