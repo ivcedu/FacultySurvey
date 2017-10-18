@@ -9,7 +9,7 @@
             . "FROM [SKYBLAST.SOCCCD.EDU].[Tardis].[dbo].[AdvocateStudentInfo] AS stin INNER JOIN [SKYBLAST.SOCCCD.EDU].[Tardis].[dbo].[AdvocateStudentCourses] AS stcr ON stin.StudentID = stcr.StudentID "
             . "INNER JOIN [SKYBLAST.SOCCCD.EDU].[Tardis].[dbo].[CourseInfo] AS crin ON stcr.TicketNumber = crin.SectionNum "
             . "WHERE stcr.DropDate = '' "
-            . "AND crin.CollegeCode = 'I' AND stcr.TermCode = '".$TermCode."' AND crin.TermCode = '".$TermCode."' "
+            . "AND crin.CollegeCode = 'I' AND stcr.TermCode = '".$TermCode."' "
             . "AND (crin.InstructionMethod = 'M72' OR crin.InstructionMethod = 'M73') "
             . "AND crin.EndDate BETWEEN '".$StartDate."' AND '".$EndDate."'";
 
