@@ -31,6 +31,7 @@ $(document).ready(function() {
         startSpinning();
         setTimeout(function() {
             getTardisStudentEmailList();
+            $('.animate-panel').animatePanel();
             stopSpinning();
         }, 1500);
         return false;
