@@ -28,7 +28,11 @@ $(document).ready(function() {
     
     // reload button click /////////////////////////////////////////////////////
     $('#btn_reload').click(function() {
-        getTardisStudentEmailList();
+        startSpinning();
+        setTimeout(function() {
+            getTardisStudentEmailList();
+            stopSpinning();
+        }, 1500);
         return false;
     });
 
@@ -48,6 +52,19 @@ $(document).ready(function() {
 });
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function startSpinning() {
+    $('#wrapper').css('opacity', '0.5');
+    $('#spinner_loader_img').addClass('preloader__spinner');
+    $('#spinner_loader').show();
+}
+
+function stopSpinning() {
+    $('#wrapper').css('opacity', '1');
+    $('#spinner_loader_img').removeClass('preloader__spinner');
+    $('#spinner_loader').hide();
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function isUserAdmin() {
     var result = new Array();
