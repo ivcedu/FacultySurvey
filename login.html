@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
         <meta http-equiv="Cache-Control" content="no-cache"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <title>Duplicating Center</title>
+        <title>Eval Opt-Out</title>
         <!-- homer-1.9 Vendor css -->
         <link rel="stylesheet" href="../homer-1.9/vendor/fontawesome/css/font-awesome.css"/>
         <link rel="stylesheet" href="../homer-1.9/vendor/metisMenu/dist/metisMenu.css"/>
