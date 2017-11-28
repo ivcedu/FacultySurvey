@@ -132,12 +132,15 @@ $(document).ready(function() {
     
     // update opt-out term conde button click //////////////////////////////////
     $('#btn_term_code_update').click(function() {
-        if (updateActiveTermCode()) {
-            swal({title: "Update Completed", text: $('#tardis_term_code_list').val() + " Term Code has been set to current active Opt-Out successfully", type: "success"});
-        }
-        else {
-            swal({title: "Error", text: $('#tardis_term_code_list').val() + " Term Code Opt-Out is completed/currently active", type: "error"});
-        }
+        db_updateOptOutTerm(1, m_term_code);
+        swal({title: "Update Completed", text: $('#tardis_term_code_list').val() + " Term Code has been set to current active Opt-Out successfully", type: "success"});
+        
+//        if (updateActiveTermCode()) {
+//            swal({title: "Update Completed", text: $('#tardis_term_code_list').val() + " Term Code has been set to current active Opt-Out successfully", type: "success"});
+//        }
+//        else {
+//            swal({title: "Error", text: $('#tardis_term_code_list').val() + " Term Code Opt-Out is completed/currently active", type: "error"});
+//        }
         getCurrentSurveyDateRange();
     });
     
@@ -322,18 +325,18 @@ function updateSurveyDateRange() {
     }
 }
 
-function updateActiveTermCode() {
-    var result = new Array();
-    result = db_getSurveyDateByTermCode(m_term_code);
-    
-    if (result.length === 0) {
-        db_updateOptOutTerm(1, m_term_code);
-        return true;
-    }
-    else {
-        return false;
-    }
-}
+//function updateActiveTermCode() {
+//    var result = new Array();
+//    result = db_getSurveyDateByTermCode(m_term_code);
+//    
+//    if (result.length === 0) {
+//        db_updateOptOutTerm(1, m_term_code);
+//        return true;
+//    }
+//    else {
+//        return false;
+//    }
+//}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //function tardisGetFacultyCourseList() {
