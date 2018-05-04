@@ -10,7 +10,7 @@
             . "SELECT crif.TermCode, emif.UserID, crif.SectionNum, crif.CourseID, crif.CourseTitle, crif.CourseDescription "
             . "FROM [SKYBLAST.SOCCCD.EDU].[Tardis].[dbo].[InstructorCourses] AS incr LEFT JOIN [SKYBLAST.SOCCCD.EDU].[Tardis].[dbo].[CourseInfo] AS crif ON incr.TermCode = crif.TermCode AND incr.SectionNum = crif.SectionNum "
             . "LEFT JOIN [SKYBLAST.SOCCCD.EDU].[Tardis].[dbo].[EmployeeInfo] AS emif ON incr.EmployeeID = emif.EmployeeID "
-            . "WHERE  CollegeCode = 'I' AND crif.CourseID <> 'TU 301' AND TermCode = '".$TermCode."'";
+            . "WHERE  crif.CollegeCode = 'I' AND crif.CourseID <> 'TU 301' AND crif.TermCode = '".$TermCode."'";
     
     $query3 = "CREATE TABLE #RESULT2 (SectionNum nvarchar(255), Participants int)";
     $query4 = "INSERT INTO #RESULT2 "
