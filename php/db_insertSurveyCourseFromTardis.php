@@ -6,12 +6,15 @@
     $dbConn->setAttribute(constant('PDO::SQLSRV_ATTR_DIRECT_QUERY'), true);
     
     $query1 = "CREATE TABLE #RESULT1 (TermCode nvarchar(255), InstructorUID nvarchar(255), SectionNum nvarchar(255), CourseID nvarchar(255), CourseTitle nvarchar(255), CourseDescription nvarchar(255))";
-    $query2 = "INSERT INTO #RESULT1 SELECT TermCode, InstructorUID, SectionNum, CourseID, CourseTitle, CourseDescription "
-            . "FROM [SKYBLAST.SOCCCD.EDU].[Tardis].[dbo].[CourseInfo] "
-            . "WHERE  CollegeCode = 'I' AND TermCode = '".$TermCode."'";
+    $query2 = "INSERT INTO #RESULT1 "
+            . "SELECT crif.TermCode, emif.UserID, crif.SectionNum, crif.CourseID, crif.CourseTitle, crif.CourseDescription "
+            . "FROM [SKYBLAST.SOCCCD.EDU].[Tardis].[dbo].[InstructorCourses] AS incr LEFT JOIN [SKYBLAST.SOCCCD.EDU].[Tardis].[dbo].[CourseInfo] AS crif ON incr.TermCode = crif.TermCode AND incr.SectionNum = crif.SectionNum "
+            . "LEFT JOIN [SKYBLAST.SOCCCD.EDU].[Tardis].[dbo].[EmployeeInfo] AS emif ON incr.EmployeeID = emif.EmployeeID "
+            . "WHERE  CollegeCode = 'I' AND crif.CourseID <> 'TU 301' AND TermCode = '".$TermCode."'";
     
     $query3 = "CREATE TABLE #RESULT2 (SectionNum nvarchar(255), Participants int)";
-    $query4 = "INSERT INTO #RESULT2 SELECT SectionNum, COUNT(StudentID) "
+    $query4 = "INSERT INTO #RESULT2 "
+            . "SELECT SectionNum, COUNT(StudentID) "
             . "FROM [SKYBLAST.SOCCCD.EDU].[Tardis].[dbo].[StudentCourses] "
             . "WHERE TermCode = '".$TermCode."' GROUP BY SectionNum";
     
